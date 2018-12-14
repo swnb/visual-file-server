@@ -1,0 +1,17 @@
+database:
+  user_name: root
+  passwd: swnb2haskell
+  type: mysql
+  connect_type: tcp
+  remote_host: localhost
+  remote_port: 3360,
+  database: SupportingPaperApi
+  others:
+    query:
+      charset: utf8
+      parseTime: True
+      loc: Local
+
+server:
+  port: 80
+  others: null
