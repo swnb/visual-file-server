@@ -381,6 +381,7 @@
   analyzer-version = 1
   input-imports = [
     "github.com/gin-gonic/gin",
+    "github.com/golang/protobuf/proto",
     "github.com/spf13/viper",
   ]
   solver-name = "gps-cdcl"
