@@ -10,18 +10,19 @@ import (
 
 // FileCompress compress file by write buffer region of it
 func FileCompress(fd *os.File) ([]byte, error) {
-	var zlipBuffer bytes.Buffer
-	zlibWriter, err := zlib.NewWriterLevel(&zlipBuffer, zlib.BestCompression)
+	var zlibBuffer bytes.Buffer
+
+	zlibWriter, err := zlib.NewWriterLevel(&zlibBuffer, zlib.BestCompression)
 	if err != nil {
 		return nil, err
 	}
 	defer zlibWriter.Close()
 
-	_, err = io.Copy(zlibWriter, bufio.NewReader(fd))
+	_, err = bufio.NewReader(fd).WriteTo(zlibWriter)
 	if err != nil {
 		return nil, err
 	}
-	return zlipBuffer.Bytes(), nil
+	return zlibBuffer.Bytes(), nil
 }
 
 // DataCompress compress data by write buffer region of it
