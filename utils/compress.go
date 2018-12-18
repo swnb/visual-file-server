@@ -11,17 +11,16 @@ import (
 // FileCompress compress file by write buffer region of it
 func FileCompress(fd *os.File) ([]byte, error) {
 	var zlibBuffer bytes.Buffer
-
 	zlibWriter, err := zlib.NewWriterLevel(&zlibBuffer, zlib.BestCompression)
 	if err != nil {
 		return nil, err
 	}
 	defer zlibWriter.Close()
-
 	_, err = bufio.NewReader(fd).WriteTo(zlibWriter)
 	if err != nil {
 		return nil, err
 	}
+	zlibWriter.Flush()
 	return zlibBuffer.Bytes(), nil
 }
 
