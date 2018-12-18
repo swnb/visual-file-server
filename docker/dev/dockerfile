@@ -1,3 +1,16 @@
-FROM golang:1.11.0
+# build
+FROM golang:1.11.0-alpine as builder
+ENV project=visual-file-server
+WORKDIR /go/src/${project}
+COPY . .
+RUN go build -o /app .
 
+# deploy
+FROM alpine:latest
+WORKDIR /project
+COPY conf conf
+COPY env env
+COPY --from=builder /app ./app
+ENTRYPOINT [ "./app" ]
+EXPOSE 80
 

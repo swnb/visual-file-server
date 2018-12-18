@@ -1,17 +1,17 @@
-package pack
+package models
 
 import (
-	"io/ioutil"
 	"os"
 	"path/filepath"
 	"strings"
 	"visual-file-server/routine"
+	"visual-file-server/utils"
 )
 
 // File define the file struct with file data
 type File struct {
-	Name string `json:"file-name"`
-	Data []byte `json:"content"`
+	Name    string `json:"file-name"`
+	Content string `json:"content"`
 }
 
 // Dir define the tree struct for Dir
@@ -38,7 +38,11 @@ func (point *Dir) insertFile(arg ...interface{}) {
 		return
 	}
 	defer fd.Close()
-	file.Data, err = ioutil.ReadAll(fd)
+	data, err := utils.FileCompress(fd)
+	if err != nil {
+		return
+	}
+	file.Content = string(data)
 	point.Files = append(point.Files, file)
 }
 
