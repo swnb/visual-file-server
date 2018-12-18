@@ -8,6 +8,17 @@ import (
 	"visual-file-server/utils"
 )
 
+// COMPRESS use package zlib compress file data
+// JSON use JSON normal file style encode file data
+// PROTOBUF use protobuf to transform file data
+// MAP use map style json form to transform file data
+const (
+	COMPRESS int = iota
+	JSON
+	PROTOBUF
+	MAP
+)
+
 // File define the file struct with file data
 type File struct {
 	Name    string `json:"file-name"`
