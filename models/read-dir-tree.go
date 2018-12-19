@@ -9,12 +9,12 @@ import (
 )
 
 // COMPRESS use package zlib compress file data
-// JSON use JSON normal file style encode file data
+// ARRAY use array load file style encode file data
 // PROTOBUF use protobuf to transform file data
 // MAP use map style json form to transform file data
 const (
-	COMPRESS int = iota
-	JSON
+	COMPRESS int = (iota + 1) * 2
+	ARRAY
 	PROTOBUF
 	MAP
 )
@@ -60,12 +60,9 @@ func (point *Dir) insertFile(arg ...interface{}) {
 // GetDirTree return tree struct for dir
 func GetDirTree(path string) (*Dir, error) {
 	// path must be abs
-	if !filepath.IsAbs(path) {
-		var err error
-		path, err = filepath.Abs(path)
-		if err != nil {
-			return nil, err
-		}
+	var err error
+	if path, err = filepath.Abs(path); err != nil {
+		return nil, err
 	}
 
 	dir, err := os.Open(path)
