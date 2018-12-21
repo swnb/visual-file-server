@@ -13,3 +13,6 @@
 
 # temporary files
 /tmp/
+
+# bin files for local system call
+/bin/
