@@ -14,30 +14,30 @@ const (
 	slice4
 )
 
-var sercetKey byte
+var key byte
 
 func init() {
 	b := make([]byte, 1)
 	n, err := rand.Read(b)
 	if err != nil || n != 1 {
-		panic("can't init sercetKey")
+		panic("can't init key")
 	}
-	sercetKey = b[0]
+	key = b[0]
 }
 
 // GUID is type of [16]byte
 type GUID [16]byte
 
 func (id *GUID) setVarient() {
-	id[1] = id[1]&^slice1 | (sercetKey & slice1)
-	id[4] = id[4]&^slice2 | (sercetKey & slice2)
-	id[9] = id[9]&^slice3 | (sercetKey & slice3)
-	id[14] = id[14]&^slice4 | (sercetKey & slice4)
+	id[1] = id[1]&^slice1 | (key & slice1)
+	id[4] = id[4]&^slice2 | (key & slice2)
+	id[9] = id[9]&^slice3 | (key & slice3)
+	id[14] = id[14]&^slice4 | (key & slice4)
 }
 
-// Verify verify whether id is creare with sercetKey ; default sercetKey is random
+// Verify verify whether id is creare with key ; default key is random
 func (id *GUID) Verify() bool {
-	return id[1]&slice1|(id[4]&slice2)|(id[9]&slice3)|(id[14]&slice4) == sercetKey
+	return id[1]&slice1|(id[4]&slice2)|(id[9]&slice3)|(id[14]&slice4) == key
 }
 
 // String return type string of guid
@@ -58,8 +58,8 @@ func New() (*GUID, error) {
 	return b, err
 }
 
-// SetSercetKey set sercetKey if you want to specify sercetKey;
+// SetSercetKey set key if you want to specify key;
 // sometimes it doesn't need to call this function
 func SetSercetKey(customSerKey byte) {
-	sercetKey = customSerKey
+	key = customSerKey
 }
