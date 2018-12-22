@@ -37,7 +37,7 @@ func dirPrompt() Controller {
 		if names, err := dir.Readdirnames(-1); err != nil {
 			responseBody = rules.ErrorQuery(c)
 		} else {
-			responseBody = rules.Success(c, j{"dirs": names})
+			responseBody = rules.Success(c, j{"dir": path, "files": names})
 		}
 	}
 
