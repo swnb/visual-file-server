@@ -2,6 +2,7 @@ package controllers
 
 import (
 	"os"
+	"os/user"
 	"visual-file-server/rules"
 
 	"github.com/gin-gonic/gin"
@@ -17,7 +18,16 @@ func dirPrompt() Controller {
 		defer c.Set("response", responseBody)
 		var err error
 
-		path := c.DefaultQuery("path", "~/")
+		path := c.Query("path")
+		if path == "" {
+			cUser, err := user.Current()
+			if err != nil {
+				responseBody = rules.Error(c)
+				return
+			}
+			path = cUser.HomeDir
+		}
+
 		var dir *os.File
 		if dir, err = os.Open(path); err != nil {
 			responseBody = rules.ErrorQuery(c)
