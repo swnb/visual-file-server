@@ -43,3 +43,13 @@ func Nothing(c *gin.Context) (body j) {
 	c.JSON(http.StatusNoContent, nil)
 	return
 }
+
+// Error means some error happen,and we don't know how to do it
+func Error(c *gin.Context) (body j) {
+	body = j{
+		"code":    "10099",
+		"message": "unknow error",
+	}
+	c.JSON(http.StatusNotFound, body)
+	return
+}
