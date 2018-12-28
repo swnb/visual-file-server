@@ -10,9 +10,12 @@ import (
 func main() {
 	r := gin.Default()
 
-	r = router.InitRouter(r)
+	r.Use(
+		middleware.Cors,
+		middleware.Logger,
+	)
 
-	r.Use(middleware.Logger)
+	r = router.InitRouter(r)
 
 	r.Run(":80")
 }
